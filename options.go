@@ -1,9 +1,8 @@
 package xtime
 
 type options struct {
-	timeLayout      string
-	nullLayout      string
-	nullLayoutBytes []byte
+	timeLayout string
+	nullLayout string
 }
 
 type Option interface {
@@ -25,10 +24,5 @@ func TimeLayout(timeLayout string) Option {
 func NullLayout(nullLayout string) Option {
 	return optionFunc(func(o *options) {
 		o.nullLayout = nullLayout
-		if nullLayout == "" {
-			o.nullLayoutBytes = []byte{'\u0000'}
-		} else {
-			o.nullLayoutBytes = []byte(nullLayout)
-		}
 	})
 }
