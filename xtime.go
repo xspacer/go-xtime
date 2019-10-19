@@ -9,15 +9,13 @@ import (
 )
 
 var (
-	_defaultOptions = options{
+	_options options = options{
 		timeLayout: "2006-01-02 15:04:05",
 		nullLayout: "null",
 	}
-	_options options
 )
 
 func Init(opts ...Option) {
-	_options = _defaultOptions
 	for _, o := range opts {
 		o.apply(&_options)
 	}
