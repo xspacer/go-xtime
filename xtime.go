@@ -77,7 +77,7 @@ func (t Time) ValueOrZero() time.Time {
 
 func (t Time) MarshalJSON() ([]byte, error) {
 	if !t.Valid {
-		return []byte{}, nil
+		return []byte(_options.nullLayout), nil
 	}
 
 	s := `"` + t.Time.Format(_options.timeLayout) + `"`
