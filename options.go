@@ -1,8 +1,8 @@
 package xtime
 
 type options struct {
-	timeLayout string
-	nullLayout string
+	timeLayout         string
+	marshalNullToEmpty bool
 }
 
 type Option interface {
@@ -21,8 +21,8 @@ func TimeLayout(timeLayout string) Option {
 	})
 }
 
-func NullLayout(nullLayout string) Option {
+func MarshalNullToEmpty(marshalNullToEmpty bool) Option {
 	return optionFunc(func(o *options) {
-		o.nullLayout = nullLayout
+		o.marshalNullToEmpty = marshalNullToEmpty
 	})
 }

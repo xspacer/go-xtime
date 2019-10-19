@@ -10,8 +10,8 @@ import (
 
 var (
 	_options options = options{
-		timeLayout: "2006-01-02 15:04:05",
-		nullLayout: "null",
+		timeLayout:         "2006-01-02 15:04:05",
+		marshalNullToEmpty: false,
 	}
 )
 
@@ -77,7 +77,10 @@ func (t Time) ValueOrZero() time.Time {
 
 func (t Time) MarshalJSON() ([]byte, error) {
 	if !t.Valid {
-		return []byte(_options.nullLayout), nil
+		if _options.marshalNullToEmpty {
+			return []byte(`""`), nil
+		}
+		return []byte("null"), nil
 	}
 
 	s := `"` + t.Time.Format(_options.timeLayout) + `"`
@@ -92,7 +95,7 @@ func (t *Time) UnmarshalJSON(data []byte) error {
 	}
 	switch x := v.(type) {
 	case string:
-		if x == _options.nullLayout {
+		if x == "" {
 			t.Valid = false
 			return nil
 		}
@@ -119,14 +122,17 @@ func (t *Time) UnmarshalJSON(data []byte) error {
 
 func (t Time) MarshalText() ([]byte, error) {
 	if !t.Valid {
-		return []byte(_options.nullLayout), nil
+		if _options.marshalNullToEmpty {
+			return []byte(""), nil
+		}
+		return []byte("null"), nil
 	}
 	return []byte(t.Time.Format(_options.timeLayout)), nil
 }
 
 func (t *Time) UnmarshalText(text []byte) error {
 	str := string(text)
-	if str == _options.nullLayout {
+	if str == "" || str == "null" {
 		t.Valid = false
 		return nil
 	}
@@ -155,7 +161,11 @@ func (t *Time) SetValid(v time.Time) {
 
 func (t Time) String() string {
 	if !t.Valid {
-		return _options.nullLayout
+		if _options.marshalNullToEmpty {
+			return ""
+		}
+		return "null"
 	}
+
 	return t.Time.Format(_options.timeLayout)
 }
