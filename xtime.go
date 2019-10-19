@@ -10,8 +10,9 @@ import (
 
 var (
 	_options options = options{
-		timeLayout: "2006-01-02 15:04:05",
-		nullLayout: "null",
+		timeLayout:      "2006-01-02 15:04:05",
+		nullLayout:      "null",
+		nullLayoutBytes: []byte("null"),
 	}
 )
 
@@ -77,7 +78,7 @@ func (t Time) ValueOrZero() time.Time {
 
 func (t Time) MarshalJSON() ([]byte, error) {
 	if !t.Valid {
-		return []byte(_options.nullLayout), nil
+		return _options.nullLayoutBytes, nil
 	}
 
 	s := `"` + t.Time.Format(_options.timeLayout) + `"`
@@ -119,7 +120,7 @@ func (t *Time) UnmarshalJSON(data []byte) error {
 
 func (t Time) MarshalText() ([]byte, error) {
 	if !t.Valid {
-		return []byte(_options.nullLayout), nil
+		return _options.nullLayoutBytes, nil
 	}
 	return []byte(t.Time.Format(_options.timeLayout)), nil
 }
