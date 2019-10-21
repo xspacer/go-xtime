@@ -161,10 +161,11 @@ func (t *Time) SetValid(v time.Time) {
 
 func (t Time) String() string {
 	if !t.Valid {
-		if _options.marshalNullToEmpty {
-			return ""
-		}
-		return "null"
+		//if _options.marshalNullToEmpty {
+		//	return ""
+		//}
+		//return "null"
+		return ""
 	}
 
 	return t.Time.Format(_options.timeLayout)
