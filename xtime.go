@@ -44,6 +44,10 @@ func FromPtr(t *time.Time) Time {
 	return New(*t, true)
 }
 
+func Now() Time {
+	return From(time.Now())
+}
+
 func (t *Time) Scan(value interface{}) error {
 	var err error
 	switch x := value.(type) {
