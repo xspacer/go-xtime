@@ -44,6 +44,18 @@ func FromPtr(t *time.Time) Time {
 	return New(*t, true)
 }
 
+func FromString(str string) Time {
+	if str == "" {
+		return New(time.Time{}, false)
+	}
+	t, err := time.ParseInLocation(_options.timeLayout, str, time.Local)
+	if err != nil {
+		return New(time.Time{}, false)
+	}
+
+	return New(t, true)
+}
+
 func Now() Time {
 	return From(time.Now())
 }
