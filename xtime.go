@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"reflect"
+	"strings"
 	"time"
 )
 
@@ -114,6 +115,9 @@ func (t *Time) UnmarshalJSON(data []byte) error {
 		if x == "" {
 			t.Valid = false
 			return nil
+		}
+		if !strings.Contains(x, ":") {
+			x += " 00:00:00"
 		}
 		t.Time, err = time.ParseInLocation(_options.timeLayout, x, time.Local)
 		t.Valid = err == nil
