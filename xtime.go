@@ -121,7 +121,11 @@ func (t *Time) UnmarshalJSON(data []byte) error {
 		}
 		t.Time, err = time.ParseInLocation(_options.timeLayout, x, time.Local)
 		t.Valid = err == nil
-		return err
+		//return err
+		if err != nil {
+			fmt.Printf("parse json time: %v\n", err)
+		}
+		return nil
 	case map[string]interface{}:
 		ti, tiOK := x["Time"].(string)
 		valid, validOK := x["Valid"].(bool)
